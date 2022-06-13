@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 // import { TouchableOpacity } from 'react-native-web';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    paddingTop: 50,
+    paddingLeft: 10,
+    paddingVertical: 10,
+  },
+  bilonContainer: {
+    width: '100%',
+    paddingLeft: 10,
+    paddingVertical: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    flexDirection: 'row',
+    marginBottom: 10,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
+
   },
 });
 
@@ -29,19 +40,21 @@ export default function App() {
 
   const renderBilon = ({ item }) => (
     <TouchableOpacity
-      style={{ padding: 10, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.05)', flexDirection: 'row', marginBottom: 10, borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
-      onPress={() => setSelectedBilon(bilon.nr)}>
+      style={styles.bilonContainer}
+      onPress={() => setSelectedBilon(item.nr)}>
       <Text style={{ fontSize: 30, fontWeight: 'bold', minWidth: 70, textAlign: 'center' }}>{item.nr}</Text>
-      <Image style={[selectedBilon == item.nr && { height: 100, width: 100 }, selectedBilon != item.nr && { height: 60 }]} source={{ uri: ripeImg[item.ripe] }} resizeMode="center" />
+      <Image
+        // resizeMode="cover"
+        source={{ uri: ripeImg[item.ripe] }}
+        style={[{ backgroundColor: 'black', overflow: 'visible' }, selectedBilon != item.nr && { height: 60, flex: 1 }, selectedBilon == item.nr && { flex: 1, height: 20, width: undefined },]} />
     </TouchableOpacity>
   )
 
   return (
-    <SafeAreaView style={[styles.container, { paddingVertical: 10 }]}>
+    <SafeAreaView style={[styles.container]}>
       <FlatList
         data={dataBiloane}
         renderItem={renderBilon}
-        // keyExtractor={(index) => { index.nr }}
       />
     </SafeAreaView>
   );
