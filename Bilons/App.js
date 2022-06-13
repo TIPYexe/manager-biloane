@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, SafeAreaView, ScrollView } from 'react-native';
 // import { TouchableOpacity } from 'react-native-web';
 
 const styles = StyleSheet.create({
@@ -18,42 +18,31 @@ export default function App() {
 
   useEffect(() => {
     if (dataBiloane.length == 0) {
-      let aux = [];
       for (let i = 1; i <= 10; i++) {
-        aux.push({
+        setDataBiloane(dataBiloane => [...dataBiloane, {
           nr: i,
           ripe: parseInt(Math.random() * 5)
-        });
+        }]);
       }
-      setSelectedBilon(aux);
     }
-  }, []);
+  }, [dataBiloane]);
 
-  const renderBilon = (bilon) => (
+  const renderBilon = ({ item }) => (
     <TouchableOpacity
-      style={{ padding: 5, alignItems: 'center' }}
-      onPress={setSelectedBilon(bilon.nr)}>
-      <Text style={{ fontSize: 10, fontWeight: 'bold', marginRight: 5 }}>{bilon.nr}</Text>
-      <Image source={{ uri: ripeImg[bilon.ripe] }} style={[selectedBilon == bilon.nr && { height: 15, width: 'auto' }, selectedBilon != bilon.nr && { height: 5, width: 'auto' }]} />
+      style={{ padding: 10, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.05)', flexDirection: 'row', marginBottom: 10, borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
+      onPress={() => setSelectedBilon(bilon.nr)}>
+      <Text style={{ fontSize: 30, fontWeight: 'bold', minWidth: 70, textAlign: 'center' }}>{item.nr}</Text>
+      <Image style={[selectedBilon == item.nr && { height: 100, width: 100 }, selectedBilon != item.nr && { height: 60 }]} source={{ uri: ripeImg[item.ripe] }} resizeMode="center" />
     </TouchableOpacity>
   )
 
   return (
-    <SafeAreaView style={styles.container}>
-      {dataBiloane.length != 10 &&
-        <View style={{ height: 10, width: 10, backgroundColor: 'red' }}>
-          {console.log(dataBiloane.length, dataBiloane)}
-        </View>}
-      {dataBiloane.length > 5 &&
-        <>
-          {console.log(dataBiloane.length, dataBiloane)}
-          <FlatList
-            data={dataBiloane}
-            renderItem={renderBilon}
-          // keyExtractor={(index) => index}
-          />
-        </>
-      }
+    <SafeAreaView style={[styles.container, { paddingVertical: 10 }]}>
+      <FlatList
+        data={dataBiloane}
+        renderItem={renderBilon}
+        // keyExtractor={(index) => { index.nr }}
+      />
     </SafeAreaView>
   );
 }
