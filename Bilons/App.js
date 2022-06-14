@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Modal, TouchableOpacity, FlatList, SafeAreaView, Image, ImageBackground, Dimensions, ScrollView } from 'react-native';
-// import { TouchableOpacity } from 'react-native-web';
-// import Modal from 'react-native-modal';
+import { Bilon } from './components';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,23 +9,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     height: '100%'
   },
-  bilonContainer: {
-    flex: 1,
-    paddingLeft: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    flexDirection: 'row',
-    marginBottom: 10,
-    borderBottomLeftRadius: 10,
-    borderTopLeftRadius: 10,
-  },
-  bilonCount: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    minWidth: 70,
-    textAlign: 'center'
-  },
+
   modalContainer: {
     flex: 1,
     alignItems: 'flex-start',
@@ -116,20 +99,6 @@ export default function App() {
     return 0;
   }
 
-  const renderBilon = ({ item }) => (
-    <TouchableOpacity
-      style={styles.bilonContainer}
-      onPress={() => { setSelectedBilon(item); setBilonDetails(true); }}>
-      <Text style={styles.bilonCount}>{item.nr}</Text>
-      <ImageBackground
-        resizeMode="contain"
-        source={{ uri: ripeImg[item.ripe] }}
-        style={[{ height: 60, flex: 1 }]}
-        imageStyle={[{ flex: 1, height: 60, width: 1920 / 2, left: -10 }]}
-      />
-    </TouchableOpacity>
-  );
-
   const renderReport = ({ item }) => (
     <View style={{ padding: 10, borderRadius: 15, borderWidth: 1, borderColor: 'rgba(0,0,0,0.3)', marginBottom: 10 }}>
       <View style={{ flexDirection: 'row' }}>
@@ -152,10 +121,7 @@ export default function App() {
     <SafeAreaView>
       <View style={[styles.container]}>
         <Text style={{ fontWeight: 'bold', fontSize: 30, color: 'purple', textAlign: 'center', marginBottom: 20 }}>Manager biloane</Text>
-        <FlatList
-          data={dataBiloane}
-          renderItem={renderBilon}
-        />
+        <Bilon dataBiloane={dataBiloane} />
       </View>
 
       <Modal
