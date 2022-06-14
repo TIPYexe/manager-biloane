@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingLeft: 10,
     paddingVertical: 10,
+    height: '100%'
   },
   bilonContainer: {
     flex: 1,
@@ -123,8 +124,8 @@ export default function App() {
       <ImageBackground
         resizeMode="contain"
         source={{ uri: ripeImg[item.ripe] }}
-        style={[selectedBilon?.nr != item.nr && { height: 60, flex: 1 }]}
-        imageStyle={[selectedBilon?.nr != item.nr && { flex: 1, height: 60, width: 1920 / 2, left: -10 }]}
+        style={[{ height: 60, flex: 1 }]}
+        imageStyle={[{ flex: 1, height: 60, width: 1920 / 2, left: -10 }]}
       />
     </TouchableOpacity>
   );
@@ -136,7 +137,9 @@ export default function App() {
         <Text style={[styles.bilonCount, { fontSize: 20, textAlign: 'left' }]}>{reportTypes[item.type]}</Text>
       </View>
       <View style={{ flexDirection: 'row', maxWidth: '100%' }}>
-        <ScrollView horizontal>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}>
           {item.images.map((prop) => (
             <Image source={{ uri: prop }} style={{ height: 230, width: 120, borderRadius: 15, margin: 10 }} />
           ))}
@@ -148,6 +151,7 @@ export default function App() {
   return (
     <SafeAreaView>
       <View style={[styles.container]}>
+        <Text style={{ fontWeight: 'bold', fontSize: 30, color: 'purple', textAlign: 'center', marginBottom: 20 }}>Manager biloane</Text>
         <FlatList
           data={dataBiloane}
           renderItem={renderBilon}
@@ -195,6 +199,7 @@ export default function App() {
           <Text style={[styles.bilonCount, { marginVertical: 20 }]}>Probleme raportate</Text>
 
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={selectedBilon?.reports}
             renderItem={renderReport}
           />
