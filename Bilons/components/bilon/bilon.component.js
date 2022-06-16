@@ -1,6 +1,7 @@
 
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, FlatList, ImageBackground } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, Text, TouchableOpacity, FlatList, ImageBackground, View } from "react-native";
+import { AppContext } from '../../context/app.context';
 
 const styles = StyleSheet.create({
     bilonContainer: {
@@ -22,13 +23,14 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function Bilon({ navigation, dataBiloane, onPress }) {
-    const ripeImg = ['https://i.ibb.co/72r7VKN/bilon0.png', 'https://i.ibb.co/wLWLrvW/bilon1.png', 'https://i.ibb.co/fkL93Fg/bilon2.png', 'https://i.ibb.co/JCVjcCR/bilon3.png', 'https://i.ibb.co/0GYyhWH/bilon4.png'];
+export default function Bilon({ navigation, data }) {
+    const { ripeImg } = useContext(AppContext);
+    const { setSelectedBilon } = useContext(AppContext);
 
     const renderBilon = ({ item }) => (
         <TouchableOpacity
             style={styles.bilonContainer}
-            onPress={() => { setSelectedBilon(item); setBilonDetails(true); }}>
+            onPress={() => { setSelectedBilon(item); navigation.navigate('BilonPage'); }}>
             <Text style={styles.bilonCount}>{item.nr}</Text>
             <ImageBackground
                 resizeMode="contain"
@@ -40,9 +42,11 @@ export default function Bilon({ navigation, dataBiloane, onPress }) {
     );
 
     return (
-        <FlatList
-            data={dataBiloane}
-            renderItem={renderBilon}
-        />
+        <>
+            <FlatList
+                data={data}
+                renderItem={renderBilon}
+            />
+        </>
     );
 }
